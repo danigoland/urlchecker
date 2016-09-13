@@ -154,11 +154,15 @@ def get_content_type(filename):
 # HOW TO USE
 
 dl = MozillaEmulator()
-df = pd.DataFrame.from_csv('apps_data.csv')
+df = pd.DataFrame.from_csv('test.csv')
 print df
 for index, row in df.iterrows():
-    res = dl.download(index).code
-    print res
-    row['status'] = True if res == 200 else False
-df.to_csv('output.csv')
+    try:
+        res = dl.download(index).code
+        row['status'] = True if res == 200 else False
+
+    except urllib2.URLError:
+        row['status'] = False
+
+df.to_csv('output2.csv')
 
